@@ -1,0 +1,55 @@
+<template>
+    <div class="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+      <h1 class="text-2xl font-bold text-gray-800">{{ formTitle }}</h1>
+      <p class="text-gray-600 mb-4">{{ formDescription }}</p>
+      <form @submit.prevent="handleSubmit" class="space-y-4">
+        <InputText
+          name="name"
+          label="Full Name"
+          v-model="formData.name"
+          :placeholder="getPlaceholder('emailgfgf')" 
+          required
+        />
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </template>
+  
+  <script>
+  import InputText from '../components/InputText.vue';
+  import formConfig from './formConfig.json'; // فایل JSON وارد شد
+  
+  export default {
+    components: {
+      InputText,
+    },
+    data() {
+      return {
+        formTitle: 'Advanced Dynamic Form',
+        formDescription: 'Fill out the required fields to proceed.',
+        formData: {
+          name: '',
+        },
+        formConfig: formConfig, // تنظیمات از JSON بارگذاری می‌شوند
+      };
+    },
+    methods: {
+      getPlaceholder(fieldName) {
+        // مقدار placeholder را از کانفیگ پیدا می‌کند
+        const field = this.formConfig.fields.find(f => f.name === fieldName);
+        console.log(field);
+        
+        return field ? field.placeholder : '';
+      },
+      handleSubmit() {
+        console.log('Form submitted:', this.formData);
+      },
+    },
+  };
+  </script>
+  
